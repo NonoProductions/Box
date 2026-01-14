@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Smart Box Steuerung - Zeitplan und Kontrolle">
+    <meta name="theme-color" content="#6366f1">
+    <title>Smart Box - Steuerung</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="icons/icon-192x192.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <h1>📦 Smart Box</h1>
+            <button id="installBtn" class="install-btn" style="display: none;">
+                Installieren
+            </button>
+        </header>
+
+        <!-- Status Card -->
+        <div class="status-card">
+            <div class="status-section">
+                <div class="status-indicator" id="statusIndicator">
+                    <span class="status-dot"></span>
+                    <div class="status-info">
+                        <span class="status-label">Supabase:</span>
+                        <span id="statusText">Verbinde...</span>
+                    </div>
+                </div>
+                <div id="connectionSuccess" class="connection-success" style="display: none;">
+                    <span class="success-icon">✓</span>
+                    <span>Erfolgreich verbunden</span>
+                </div>
+            </div>
+            <div class="box-status">
+                <span class="status-label">Box Status:</span>
+                <span id="boxState">Unbekannt</span>
+            </div>
+        </div>
+
+        <!-- Supabase Warning -->
+        <div id="supabaseWarning" class="warning-banner" style="display: none;">
+            <strong>⚠️ Supabase nicht konfiguriert!</strong>
+            <p>Bitte öffnen Sie <code>config.js</code> und tragen Sie Ihre Supabase URL und den Anon Key ein.</p>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Schedule Section -->
+            <section class="schedule-section">
+                <div class="section-header">
+                    <h2>Zeitplan</h2>
+                    <button id="addScheduleBtn" class="btn btn-primary">
+                        + Neuer Zeitplan
+                    </button>
+                </div>
+
+                <div id="scheduleList" class="schedule-list">
+                    <!-- Schedules will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Manual Control Section -->
+            <section class="control-section">
+                <h2>Manuelle Steuerung</h2>
+                <div class="control-buttons">
+                    <button id="openBoxBtn" class="btn btn-success">
+                        📂 Box öffnen
+                    </button>
+                    <button id="closeBoxBtn" class="btn btn-warning">
+                        📁 Box schließen
+                    </button>
+                    <button id="testBeeperBtn" class="btn btn-info">
+                        🔊 Beeper testen
+                    </button>
+                </div>
+            </section>
+
+            <!-- Logs Section -->
+            <section class="logs-section">
+                <h2>Aktivitätsprotokoll</h2>
+                <div id="logsContainer" class="logs-container">
+                    <!-- Logs will appear here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Schedule Modal -->
+    <div id="scheduleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Neuer Zeitplan</h2>
+                <button class="modal-close" id="closeModal">&times;</button>
+            </div>
+            <form id="scheduleForm">
+                <div class="form-group">
+                    <label for="scheduleName">Name</label>
+                    <input type="text" id="scheduleName" required placeholder="z.B. Morgenroutine">
+                </div>
+                <div class="form-group">
+                    <label for="scheduleTime">Uhrzeit</label>
+                    <input type="time" id="scheduleTime" required>
+                </div>
+                <div class="form-group">
+                    <label for="scheduleDays">Wochentage</label>
+                    <div class="day-selector">
+                        <label class="day-checkbox">
+                            <input type="checkbox" value="0" name="days">
+                            <span>Mo</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" value="1" name="days">
+                            <span>Di</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" value="2" name="days">
+                            <span>Mi</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" value="3" name="days">
+                            <span>Do</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" value="4" name="days">
+                            <span>Fr</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" value="5" name="days">
+                            <span>Sa</span>
+                        </label>
+                        <label class="day-checkbox">
+                            <input type="checkbox" value="6" name="days">
+                            <span>So</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="beeperDuration">Beeper Dauer (Sekunden)</label>
+                    <input type="number" id="beeperDuration" min="1" max="60" value="5" required>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="scheduleActive" checked>
+                        Aktiv
+                    </label>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" id="cancelBtn">Abbrechen</button>
+                    <button type="submit" class="btn btn-primary">Speichern</button>
+                    <button type="button" class="btn btn-danger" id="deleteBtn" style="display: none;">Löschen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script type="module" src="app.js"></script>
+    <script>
+        // Register Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered'))
+                    .catch(err => console.log('Service Worker registration failed:', err));
+            });
+        }
+    </script>
+</body>
+</html>
+
