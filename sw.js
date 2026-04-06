@@ -1,53 +1,55 @@
 // Service Worker for PWA
-const CACHE_NAME = 'smart-box-v2';
+const CACHE_NAME = 'smart-box-v3';
 const urlsToCache = [
   '/',
   '/index.html',
   '/styles.css',
   '/app.js',
-  '/manifest.json',
-  'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm'
+  '/config.js',
+  '/manifest.json'
 ];
 
-// Install
+// Install - sofort aktivieren
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then((cache) => cache.addAll(urlsToCache))
   );
 });
 
-// Fetch - Network First Strategy für Entwicklung
+// Fetch
 self.addEventListener('fetch', (event) => {
-  // Für CSS und JS: Network First (immer neueste Version)
-  if (event.request.url.includes('.css') || event.request.url.includes('.js')) {
+  const url = event.request.url;
+
+  // API-Aufrufe (Supabase etc.) NIEMALS cachen - immer direkt durchleiten
+  if (url.includes('supabase.co') || url.includes('/rest/') || url.includes('/auth/')) {
+    return;
+  }
+
+  // Für eigene Dateien (HTML, CSS, JS): Network First
+  if (url.includes('.html') || url.includes('.css') || url.includes('.js') || url.endsWith('/')) {
     event.respondWith(
       fetch(event.request)
         .then((response) => {
-          // Cache die neue Version
           const responseToCache = response.clone();
           caches.open(CACHE_NAME).then((cache) => {
             cache.put(event.request, responseToCache);
           });
           return response;
         })
-        .catch(() => {
-          // Fallback zu Cache wenn Netzwerk fehlschlägt
-          return caches.match(event.request);
-        })
+        .catch(() => caches.match(event.request))
     );
   } else {
-    // Für andere Dateien: Cache First
+    // Icons, Manifest etc.: Cache First
     event.respondWith(
       caches.match(event.request)
-        .then((response) => {
-          return response || fetch(event.request);
-        })
+        .then((response) => response || fetch(event.request))
     );
   }
 });
 
-// Activate
+// Activate - alte Caches sofort löschen
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
@@ -58,7 +60,7 @@ self.addEventListener('activate', (event) => {
           }
         })
       );
-    })
+    }).then(() => self.clients.claim())
   );
 });
 
