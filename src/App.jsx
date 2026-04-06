@@ -969,10 +969,23 @@ export default function App() {
       setShowInstallBtn(true)
     }
 
-    window.addEventListener('beforeinstallprompt', handler)
-    if (window.matchMedia('(display-mode: standalone)').matches) setShowInstallBtn(false)
+    const handleInstalled = () => {
+      installPromptRef.current = null
+      setShowInstallBtn(false)
+    }
 
-    return () => window.removeEventListener('beforeinstallprompt', handler)
+    window.addEventListener('beforeinstallprompt', handler)
+    window.addEventListener('appinstalled', handleInstalled)
+
+    const isStandalone =
+      window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true
+
+    if (isStandalone) setShowInstallBtn(false)
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handler)
+      window.removeEventListener('appinstalled', handleInstalled)
+    }
   }, [])
 
   useEffect(() => {

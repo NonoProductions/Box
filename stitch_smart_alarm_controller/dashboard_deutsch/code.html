@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#585a6f",
+                    "surface-container": "#e9eef3",
+                    "tertiary-container": "#f1cefc",
+                    "on-tertiary-container": "#5d4368",
+                    "secondary": "#5b5e72",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#7789f0",
+                    "outline-variant": "#abb3b9",
+                    "error": "#a8364b",
+                    "on-primary-fixed": "#000000",
+                    "surface-bright": "#f7f9fc",
+                    "surface": "#f7f9fc",
+                    "surface-variant": "#dce3e9",
+                    "on-secondary": "#faf8ff",
+                    "error-dim": "#6b0221",
+                    "on-error": "#fff7f7",
+                    "on-tertiary": "#fff7fc",
+                    "inverse-primary": "#8596ff",
+                    "surface-dim": "#d4dbe1",
+                    "on-error-container": "#6e0523",
+                    "on-primary-container": "#001367",
+                    "error-container": "#f97386",
+                    "inverse-on-surface": "#9a9da0",
+                    "inverse-surface": "#0b0f11",
+                    "tertiary-dim": "#64496f",
+                    "primary-container": "#8596ff",
+                    "tertiary": "#71557c",
+                    "secondary-fixed": "#e0e1f9",
+                    "outline": "#747c81",
+                    "surface-container-low": "#f0f4f8",
+                    "surface-container-highest": "#dce3e9",
+                    "on-secondary-fixed": "#3c3e51",
+                    "on-primary": "#faf8ff",
+                    "on-background": "#2c3338",
+                    "primary-fixed": "#8596ff",
+                    "secondary-fixed-dim": "#d1d3eb",
+                    "secondary-container": "#e0e1f9",
+                    "on-primary-fixed-variant": "#001a80",
+                    "background": "#f7f9fc",
+                    "surface-container-high": "#e3e9ee",
+                    "tertiary-fixed-dim": "#e2c0ee",
+                    "on-tertiary-fixed": "#493055",
+                    "primary": "#4456ba",
+                    "surface-tint": "#4456ba",
+                    "secondary-dim": "#4f5266",
+                    "tertiary-fixed": "#f1cefc",
+                    "on-tertiary-fixed-variant": "#674c72",
+                    "on-surface": "#2c3338",
+                    "on-surface-variant": "#596065",
+                    "primary-dim": "#3749ad",
+                    "on-secondary-container": "#4e5065"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; -webkit-font-smoothing: antialiased; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift { background-color: #f7f9fc; }
+        .flat-no-shadows { box-shadow: none; }
+        .glass-panel {
+            background: rgba(247, 249, 252, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#f7f9fc]/70 dark:bg-slate-900/70 backdrop-blur-xl flex justify-between items-center px-6 py-4 w-full">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center overflow-hidden">
+<img alt="Nutzerprofil" class="w-full h-full object-cover" data-alt="Close up portrait of a smiling young man in soft natural morning light with a clean minimalist background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCpLmv90f9aE07SP49srhW5_sRaG1asojBW6Zv48qG6NDbMloqs7PNAdU4pmTNGDzAQcPCgjlBcXP5Pp9JxqQEVgNIqGVn7uZbc2vN2GgFp8Sv7gKYpRe_eacUJp8wyN4cEZF-Qb9kkXvDCFEqZnDjOMLzl_w8VzBJAexOeK0XZdN1hRm6Iq3NnFiB2FKt_kDaLeDDHaxY7B2OejySFcJheoKwqKXUBuXWWm2GdJr9_aQDaF5IQn1f6RHmhYVZbqrzwAIRmyattD6G2"/>
+</div>
+</div>
+<h1 class="text-2xl font-black tracking-tighter text-[#4456ba] dark:text-[#8596ff] font-manrope">LUNAR</h1>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#f0f4f8] transition-colors">
+<span class="material-symbols-outlined text-[#596065]">settings</span>
+</button>
+</header>
+<main class="flex-1 pt-24 pb-32 px-6 max-w-2xl mx-auto w-full">
+<!-- Greeting Section -->
+<section class="mb-12">
+<h2 class="text-[40px] leading-tight font-extrabold tracking-tight text-on-surface mb-2">
+                Guten Morgen, Alex
+            </h2>
+<p class="text-on-surface-variant text-lg leading-relaxed opacity-80">
+                Dein nächster Wecker klingelt in 8 Stunden.
+            </p>
+</section>
+<!-- Primary Card: Next Alarm -->
+<div class="relative mb-10">
+<div class="w-full aspect-[4/3] rounded-[32px] overflow-hidden relative shadow-[0_12px_32px_rgba(63,81,181,0.06)] group">
+<img alt="Morgensonne" class="absolute inset-0 w-full h-full object-cover brightness-[0.85] transition-transform duration-700 group-hover:scale-105" data-alt="Soft morning sunlight streaming through a sheer white curtain into a minimalist airy bedroom with warm golden tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC86Gbww5-sX00xHohsJmErb-KhA2-EzA_l1JiLGysujKnzBoIzZi5WSubLBhyjgpuZqjke_2q_20qy6m0nEXM5H1KeicTwFazS2iFY7JFbUQLbYA8uxlGiwkUaT_3kBy1qLuoYNqPJ76WCcfvqRt7qvAhzFe3O5YNgRYJUQOyZv4QIHG36GzRRrdSb9xMqcSMaTEM5_5UtYIkPyBza_pvmASprmHtKXN7YrxZE4lOOxeVZDZk60SlcdijJAckIwCXAA3KUbL5hiBhZ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-8 w-full flex flex-col items-start">
+<span class="text-on-primary text-sm font-bold tracking-widest uppercase mb-2 px-3 py-1 bg-white/20 backdrop-blur-md rounded-full">
+                        Nächster Alarm
+                    </span>
+<h3 class="text-white text-7xl font-black tracking-tighter mb-4">
+                        07:30
+                    </h3>
+<div class="flex items-center gap-2 text-white/90 font-medium">
+<span class="material-symbols-outlined">alarm_on</span>
+<span>Morgen wecken</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Access Alarms List -->
+<section class="space-y-4">
+<div class="flex justify-between items-center mb-6">
+<h4 class="text-xl font-bold tracking-tight text-on-surface">Schnellzugriff</h4>
+<button class="text-primary font-bold text-sm">Alle ansehen</button>
+</div>
+<!-- Alarm Row 1 -->
+<div class="flex items-center justify-between p-6 rounded-3xl bg-surface-container-low transition-all hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(63,81,181,0.04)] border border-transparent hover:border-outline-variant/10">
+<div class="flex flex-col">
+<span class="text-3xl font-bold tracking-tight text-on-surface">06:30</span>
+<span class="text-on-surface-variant text-sm font-medium">Frühaufsteher</span>
+</div>
+<button class="w-14 h-8 rounded-full bg-surface-container-highest relative transition-colors duration-300">
+<span class="absolute right-1 top-1 w-6 h-6 rounded-full bg-white shadow-sm"></span>
+</button>
+</div>
+<!-- Alarm Row 2 (Active) -->
+<div class="flex items-center justify-between p-6 rounded-3xl bg-surface-container-lowest shadow-[0_12px_32px_rgba(63,81,181,0.06)] border border-primary/10">
+<div class="flex flex-col">
+<span class="text-3xl font-bold tracking-tight text-primary">08:00</span>
+<span class="text-on-surface-variant text-sm font-medium">Wochenende</span>
+</div>
+<button class="w-14 h-8 rounded-full bg-primary relative transition-colors duration-300">
+<span class="absolute left-1 top-1 w-6 h-6 rounded-full bg-white shadow-sm"></span>
+</button>
+</div>
+<!-- Add New Placeholder -->
+<button class="w-full p-6 rounded-3xl border-2 border-dashed border-outline-variant/30 flex items-center justify-center gap-3 text-on-surface-variant font-bold hover:bg-surface-container-low transition-colors">
+<span class="material-symbols-outlined">add</span>
+                Neuer Wecker
+            </button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-8 pt-4 bg-[#f7f9fc]/70 backdrop-blur-xl shadow-[0_-12px_32px_rgba(63,81,181,0.06)] rounded-t-[32px]">
+<!-- Home Tab (Active) -->
+<a class="flex flex-col items-center justify-center bg-[#e0e1f9] dark:bg-[#4456ba]/20 text-[#4456ba] dark:text-[#8596ff] rounded-2xl px-6 py-2 transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-manrope text-xs font-bold mt-1">Home</span>
+</a>
+<!-- Alarms Tab -->
+<a class="flex flex-col items-center justify-center text-[#596065] dark:text-slate-400 px-6 py-2 hover:bg-[#f0f4f8] dark:hover:bg-slate-800 rounded-2xl transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined">alarm</span>
+<span class="font-manrope text-xs font-medium mt-1">Wecker</span>
+</a>
+<!-- Devices Tab -->
+<a class="flex flex-col items-center justify-center text-[#596065] dark:text-slate-400 px-6 py-2 hover:bg-[#f0f4f8] dark:hover:bg-slate-800 rounded-2xl transition-all duration-200 active:scale-90" href="#">
+<span class="material-symbols-outlined">devices</span>
+<span class="font-manrope text-xs font-medium mt-1">Gerät</span>
+</a>
+</nav>
+<!-- Floating Action Button for Adding Alarms (Contextual) -->
+<button class="fixed bottom-28 right-6 w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-2xl shadow-xl flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-2xl">alarm_add</span>
+</button>
+</body></html>

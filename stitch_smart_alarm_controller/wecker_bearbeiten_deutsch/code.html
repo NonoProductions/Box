@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#585a6f",
+                    "surface-container": "#e9eef3",
+                    "tertiary-container": "#f1cefc",
+                    "on-tertiary-container": "#5d4368",
+                    "secondary": "#5b5e72",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#7789f0",
+                    "outline-variant": "#abb3b9",
+                    "error": "#a8364b",
+                    "on-primary-fixed": "#000000",
+                    "surface-bright": "#f7f9fc",
+                    "surface": "#f7f9fc",
+                    "surface-variant": "#dce3e9",
+                    "on-secondary": "#faf8ff",
+                    "error-dim": "#6b0221",
+                    "on-error": "#fff7f7",
+                    "on-tertiary": "#fff7fc",
+                    "inverse-primary": "#8596ff",
+                    "surface-dim": "#d4dbe1",
+                    "on-error-container": "#6e0523",
+                    "on-primary-container": "#001367",
+                    "error-container": "#f97386",
+                    "inverse-on-surface": "#9a9da0",
+                    "inverse-surface": "#0b0f11",
+                    "tertiary-dim": "#64496f",
+                    "primary-container": "#8596ff",
+                    "tertiary": "#71557c",
+                    "secondary-fixed": "#e0e1f9",
+                    "outline": "#747c81",
+                    "surface-container-low": "#f0f4f8",
+                    "surface-container-highest": "#dce3e9",
+                    "on-secondary-fixed": "#3c3e51",
+                    "on-primary": "#faf8ff",
+                    "on-background": "#2c3338",
+                    "primary-fixed": "#8596ff",
+                    "secondary-fixed-dim": "#d1d3eb",
+                    "secondary-container": "#e0e1f9",
+                    "on-primary-fixed-variant": "#001a80",
+                    "background": "#f7f9fc",
+                    "surface-container-high": "#e3e9ee",
+                    "tertiary-fixed-dim": "#e2c0ee",
+                    "on-tertiary-fixed": "#493055",
+                    "primary": "#4456ba",
+                    "surface-tint": "#4456ba",
+                    "secondary-dim": "#4f5266",
+                    "tertiary-fixed": "#f1cefc",
+                    "on-tertiary-fixed-variant": "#674c72",
+                    "on-surface": "#2c3338",
+                    "on-surface-variant": "#596065",
+                    "primary-dim": "#3749ad",
+                    "on-secondary-container": "#4e5065"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .ghost-border { border: 1px solid rgba(171, 179, 185, 0.15); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen pb-24">
+<!-- Top Navigation (Shell Invisible for Focus Task) -->
+<header class="flex justify-between items-center px-6 py-8 w-full z-50">
+<button class="text-on-surface-variant hover:bg-surface-container-low p-2 rounded-full transition-colors">
+<span class="material-symbols-outlined">close</span>
+</button>
+<h1 class="text-on-surface font-headline font-bold text-lg tracking-tight">Wecker bearbeiten</h1>
+<button class="text-primary font-headline font-bold text-lg px-2 hover:opacity-80 transition-opacity">
+            Speichern
+        </button>
+</header>
+<main class="px-6 max-w-2xl mx-auto space-y-12">
+<!-- Time Picker Section -->
+<section class="flex flex-col items-center justify-center py-12 relative">
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="w-full h-24 bg-surface-container-low rounded-xl"></div>
+</div>
+<div class="flex items-center gap-4 z-10">
+<!-- Hours -->
+<div class="h-64 overflow-y-auto hide-scrollbar flex flex-col items-center snap-y snap-mandatory text-5xl md:text-7xl font-light tracking-tighter text-on-surface-variant/30">
+<div class="h-24 flex items-center justify-center snap-center">05</div>
+<div class="h-24 flex items-center justify-center snap-center text-on-surface font-semibold">06</div>
+<div class="h-24 flex items-center justify-center snap-center">07</div>
+</div>
+<span class="text-4xl md:text-6xl font-light text-primary/40 pb-2">:</span>
+<!-- Minutes -->
+<div class="h-64 overflow-y-auto hide-scrollbar flex flex-col items-center snap-y snap-mandatory text-5xl md:text-7xl font-light tracking-tighter text-on-surface-variant/30">
+<div class="h-24 flex items-center justify-center snap-center">29</div>
+<div class="h-24 flex items-center justify-center snap-center text-on-surface font-semibold">30</div>
+<div class="h-24 flex items-center justify-center snap-center">31</div>
+</div>
+</div>
+<p class="mt-8 text-on-surface-variant font-medium">Klingelt in 7 Std. 45 Min.</p>
+</section>
+<!-- Configuration List -->
+<div class="space-y-6">
+<!-- Wiederholen Selection -->
+<div class="space-y-4">
+<h3 class="text-on-surface-variant text-sm font-bold tracking-widest uppercase px-1">Wiederholen</h3>
+<div class="flex justify-between items-center gap-2">
+<button class="w-10 h-10 rounded-full border border-outline-variant/30 text-on-surface-variant text-sm font-bold flex items-center justify-center hover:bg-surface-container transition-colors">M</button>
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary text-sm font-bold flex items-center justify-center">D</button>
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary text-sm font-bold flex items-center justify-center">M</button>
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary text-sm font-bold flex items-center justify-center">D</button>
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary text-sm font-bold flex items-center justify-center">F</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant/30 text-on-surface-variant text-sm font-bold flex items-center justify-center hover:bg-surface-container transition-colors">S</button>
+<button class="w-10 h-10 rounded-full border border-outline-variant/30 text-on-surface-variant text-sm font-bold flex items-center justify-center hover:bg-surface-container transition-colors">S</button>
+</div>
+</div>
+<!-- Weckton Section -->
+<div class="space-y-4 pt-4">
+<h3 class="text-on-surface-variant text-sm font-bold tracking-widest uppercase px-1">Weckton</h3>
+<div class="bg-surface-container-low rounded-xl overflow-hidden ghost-border">
+<div class="flex items-center justify-between p-5 hover:bg-surface-container-highest transition-colors cursor-pointer group">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim">music_note</span>
+<div>
+<p class="text-on-surface font-semibold">Sanfter Waldmorgen</p>
+<p class="text-on-surface-variant text-xs">Standardton</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline-variant group-hover:text-primary transition-colors">chevron_right</span>
+</div>
+</div>
+</div>
+<!-- Sunrise Light Section -->
+<div class="space-y-4 pt-4">
+<div class="flex justify-between items-center px-1">
+<h3 class="text-on-surface-variant text-sm font-bold tracking-widest uppercase">Sonnenaufgangs-Licht</h3>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+</label>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-6 ghost-border space-y-6">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-primary to-primary-container flex items-center justify-center shadow-[0_12px_32px_rgba(63,81,181,0.15)]">
+<span class="material-symbols-outlined text-on-primary text-3xl" style="font-variation-settings: 'FILL' 1;">wb_sunny</span>
+</div>
+<div class="flex-1 space-y-1">
+<p class="text-on-surface font-bold">Lichtintensität</p>
+<p class="text-on-surface-variant text-xs leading-relaxed">Das Licht wird 20 Min. vor dem Wecken langsam heller.</p>
+</div>
+</div>
+<div class="relative w-full h-12 flex items-center">
+<div class="absolute w-full h-1.5 bg-surface-container-highest rounded-full"></div>
+<div class="absolute w-[70%] h-1.5 bg-primary rounded-full"></div>
+<div class="absolute left-[70%] -ml-3 w-6 h-6 bg-white border-4 border-primary rounded-full shadow-md cursor-pointer"></div>
+</div>
+<div class="flex justify-between text-[10px] font-bold text-on-surface-variant tracking-wider uppercase">
+<span>Sanft</span>
+<span>Strahlend</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Action -->
+<div class="pt-8 pb-12 flex justify-center">
+<button class="flex items-center gap-2 text-error font-bold px-6 py-3 rounded-full hover:bg-error/5 transition-colors">
+<span class="material-symbols-outlined text-sm">delete</span>
+                Wecker löschen
+            </button>
+</div>
+</main>
+<!-- Footer Actions (Mobile Sticky Bar Style) -->
+<footer class="fixed bottom-0 left-0 w-full z-50 px-6 pb-8 pt-4 bg-background/80 backdrop-blur-xl md:hidden">
+<div class="flex gap-4">
+<button class="flex-1 py-4 px-6 rounded-xl bg-secondary-container text-on-secondary-container font-headline font-bold text-sm text-center hover:opacity-90 transition-opacity">
+                Abbrechen
+            </button>
+<button class="flex-[2] py-4 px-6 rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold text-sm text-center shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity">
+                Speichern
+            </button>
+</div>
+</footer>
+<!-- Web Footer (Centered) -->
+<footer class="hidden md:flex fixed bottom-12 left-1/2 -translate-x-1/2 w-fit gap-6 z-50">
+<button class="px-12 py-4 rounded-full bg-secondary-container text-on-secondary-container font-headline font-bold text-sm transition-transform active:scale-95">
+            Abbrechen
+        </button>
+<button class="px-16 py-4 rounded-full bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline font-bold text-sm shadow-xl shadow-primary/20 transition-transform active:scale-95">
+            Speichern
+        </button>
+</footer>
+</body></html>

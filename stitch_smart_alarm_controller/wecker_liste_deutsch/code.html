@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html class="light" lang="de"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary-fixed-variant": "#585a6f",
+                    "surface-container": "#e9eef3",
+                    "tertiary-container": "#f1cefc",
+                    "on-tertiary-container": "#5d4368",
+                    "secondary": "#5b5e72",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#7789f0",
+                    "outline-variant": "#abb3b9",
+                    "error": "#a8364b",
+                    "on-primary-fixed": "#000000",
+                    "surface-bright": "#f7f9fc",
+                    "surface": "#f7f9fc",
+                    "surface-variant": "#dce3e9",
+                    "on-secondary": "#faf8ff",
+                    "error-dim": "#6b0221",
+                    "on-error": "#fff7f7",
+                    "on-tertiary": "#fff7fc",
+                    "inverse-primary": "#8596ff",
+                    "surface-dim": "#d4dbe1",
+                    "on-error-container": "#6e0523",
+                    "on-primary-container": "#001367",
+                    "error-container": "#f97386",
+                    "inverse-on-surface": "#9a9da0",
+                    "inverse-surface": "#0b0f11",
+                    "tertiary-dim": "#64496f",
+                    "primary-container": "#8596ff",
+                    "tertiary": "#71557c",
+                    "secondary-fixed": "#e0e1f9",
+                    "outline": "#747c81",
+                    "surface-container-low": "#f0f4f8",
+                    "surface-container-highest": "#dce3e9",
+                    "on-secondary-fixed": "#3c3e51",
+                    "on-primary": "#faf8ff",
+                    "on-background": "#2c3338",
+                    "primary-fixed": "#8596ff",
+                    "secondary-fixed-dim": "#d1d3eb",
+                    "secondary-container": "#e0e1f9",
+                    "on-primary-fixed-variant": "#001a80",
+                    "background": "#f7f9fc",
+                    "surface-container-high": "#e3e9ee",
+                    "tertiary-fixed-dim": "#e2c0ee",
+                    "on-tertiary-fixed": "#493055",
+                    "primary": "#4456ba",
+                    "surface-tint": "#4456ba",
+                    "secondary-dim": "#4f5266",
+                    "tertiary-fixed": "#f1cefc",
+                    "on-tertiary-fixed-variant": "#674c72",
+                    "on-surface": "#2c3338",
+                    "on-surface-variant": "#596065",
+                    "primary-dim": "#3749ad",
+                    "on-secondary-container": "#4e5065"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.5rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .active-pill {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .active-pill:active {
+            transform: scale(0.95);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar Shell -->
+<header class="z-50 fixed top-0 w-full bg-[#f7f9fc]/70 backdrop-blur-xl flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary-fixed flex items-center justify-center overflow-hidden">
+<img alt="Nutzerprofil" class="w-full h-full object-cover" data-alt="close-up portrait of a serene young woman with soft natural lighting and a clean background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDDcUI3LcOKlgVVd0pItf6QvGt2GcNkV30KreH3L42vxGMsWGROxctdnjNAOc1VqmF3qurAXTZ1T1LFGgsi1Z_WjqEfFwky85C2OQ5A-xHFnNK6gGynyMrtdnDpVtMXbPQtCDv5TDQp7fm-hZN1AycxoutbxoEOm8LKfaB0V1VdvHY_lyiv32tKmF9Viia7HLJy9JhNg0DGtxDZyLpryUtexjMIsmVtm3iv61Qn5Tv4mYLC0zjg38w_TQG5esGIO2EFE8hxZzROTohp"/>
+</div>
+<span class="text-2xl font-black tracking-tighter text-[#4456ba] font-headline">LUNAR</span>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-[#f0f4f8] transition-colors active:scale-95 duration-150 text-[#596065]">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<!-- Content Canvas -->
+<main class="pt-24 px-6 max-w-2xl mx-auto">
+<!-- Editorial Header -->
+<div class="mb-10">
+<h1 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Deine Wecker</h1>
+<p class="text-on-surface-variant text-lg leading-relaxed">Guten Morgen. Bereit für einen sanften Start in den Tag?</p>
+</div>
+<!-- Alarm List (Bento-style spacing) -->
+<div class="space-y-4">
+<!-- Alarm Item 1 (Active) -->
+<div class="bg-surface-container-lowest p-6 rounded-xl flex items-center justify-between group hover:shadow-[0_12px_32px_rgba(63,81,181,0.06)] transition-all duration-300 cursor-pointer">
+<div class="flex flex-col">
+<span class="text-5xl font-extrabold tracking-tighter text-primary">07:30</span>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-sm font-medium text-on-surface-variant">Täglich</span>
+<div class="w-1 h-1 rounded-full bg-outline-variant/30"></div>
+<span class="text-xs text-primary font-bold">In 7 Std. 12 Min.</span>
+</div>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<!-- Alarm Item 2 (Active) -->
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center justify-between group hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(63,81,181,0.06)] transition-all duration-300 cursor-pointer">
+<div class="flex flex-col">
+<span class="text-5xl font-extrabold tracking-tighter text-on-surface">06:00</span>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-sm font-medium text-on-surface-variant">Wochentage</span>
+</div>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<!-- Alarm Item 3 (Inactive) -->
+<div class="bg-surface-container-low p-6 rounded-xl flex items-center justify-between group opacity-60 hover:opacity-100 hover:bg-surface-container-lowest hover:shadow-[0_12px_32px_rgba(63,81,181,0.06)] transition-all duration-300 cursor-pointer">
+<div class="flex flex-col">
+<span class="text-5xl font-extrabold tracking-tighter text-on-surface">10:00</span>
+<div class="flex items-center gap-2 mt-2">
+<span class="text-sm font-medium text-on-surface-variant">Wochenende</span>
+</div>
+</div>
+<div class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-14 h-8 bg-surface-variant peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-primary"></div>
+</div>
+</div>
+<!-- Visual Editorial Element (Asymmetry) -->
+<div class="mt-12 py-8 px-6 bg-gradient-to-br from-primary to-primary-container rounded-2xl text-on-primary relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="text-xl font-bold mb-1">Ruhemodus</h3>
+<p class="text-sm opacity-90 max-w-[200px]">Alle Benachrichtigungen sind bis zum ersten Wecker stummgeschaltet.</p>
+</div>
+<span class="material-symbols-outlined absolute -bottom-6 -right-6 text-9xl opacity-10 rotate-12" data-icon="bedtime">bedtime</span>
+</div>
+</div>
+</main>
+<!-- FAB: Add Alarm -->
+<button class="fixed bottom-28 right-6 w-16 h-16 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-2xl flex items-center justify-center shadow-[0_12px_32px_rgba(63,81,181,0.2)] active:scale-95 transition-transform duration-200 z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-[#f7f9fc]/70 backdrop-blur-xl rounded-t-3xl shadow-[0_-12px_32px_rgba(63,81,181,0.06)]">
+<a class="flex flex-col items-center justify-center text-[#596065] px-5 py-2 hover:bg-[#f0f4f8] transition-colors rounded-2xl" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-manrope text-xs font-medium mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#e0e1f9] text-[#4456ba] rounded-2xl px-5 py-2 active:scale-90 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="alarm" style="font-variation-settings: 'FILL' 1;">alarm</span>
+<span class="font-manrope text-xs font-medium mt-1">Wecker</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#596065] px-5 py-2 hover:bg-[#f0f4f8] transition-colors rounded-2xl" href="#">
+<span class="material-symbols-outlined" data-icon="devices">devices</span>
+<span class="font-manrope text-xs font-medium mt-1">Gerät</span>
+</a>
+</nav>
+</body></html>

@@ -1,5 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
-import { config } from './config.js';
+import { config } from './config.js?v=3';
 
 // Supabase Configuration from config.js
 const SUPABASE_URL = config.supabase.url;
@@ -20,6 +20,19 @@ if (isSupabaseConfigured) {
 let currentScheduleId = null;
 let schedules = [];
 let realtimeSubscription = null;
+let beeperOn = false; // Pipsen-Schalter (lokal)
+
+// Helper: days-Feld sicher als Array zurückgeben (egal ob Array, String, oder kaputt)
+function parseDays(days) {
+    if (Array.isArray(days)) return days;
+    if (typeof days === 'string') {
+        try { 
+            const parsed = JSON.parse(days);
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (e) { return []; }
+    }
+    return [];
+}
 
 // DOM Elements
 const elements = {
@@ -29,6 +42,9 @@ const elements = {
     statusDot: document.querySelector('.status-dot'),
     connectionSuccess: document.getElementById('connectionSuccess'),
     boxState: document.getElementById('boxState'),
+    esp32Indicator: document.getElementById('esp32Indicator'),
+    esp32Dot: document.getElementById('esp32Dot'),
+    esp32StatusText: document.getElementById('esp32StatusText'),
     addScheduleBtn: document.getElementById('addScheduleBtn'),
     scheduleList: document.getElementById('scheduleList'),
     scheduleModal: document.getElementById('scheduleModal'),
@@ -40,6 +56,9 @@ const elements = {
     openBoxBtn: document.getElementById('openBoxBtn'),
     closeBoxBtn: document.getElementById('closeBoxBtn'),
     testBeeperBtn: document.getElementById('testBeeperBtn'),
+    beeperSwitchBtn: document.getElementById('beeperSwitchBtn'),
+    beeperSwitchIcon: document.getElementById('beeperSwitchIcon'),
+    beeperSwitchLabel: document.getElementById('beeperSwitchLabel'),
     logsContainer: document.getElementById('logsContainer'),
     toast: document.getElementById('toast'),
     supabaseWarning: document.getElementById('supabaseWarning')
@@ -48,6 +67,7 @@ const elements = {
 // Initialize App
 async function init() {
     setupEventListeners();
+    updateBeeperSwitchUI();
     await checkSupabaseConnection();
     await loadBoxState();
     await loadSchedules();
@@ -55,6 +75,8 @@ async function init() {
     setupPWA();
     checkSchedules();
     setInterval(checkSchedules, 60000); // Check every minute
+    checkESP32Status(); // Initial check
+    setInterval(checkESP32Status, 15000); // Check ESP32 status every 15 seconds
 }
 
 // Event Listeners
@@ -67,7 +89,8 @@ function setupEventListeners() {
     elements.openBoxBtn.addEventListener('click', () => sendCommand('open'));
     elements.closeBoxBtn.addEventListener('click', () => sendCommand('close'));
     elements.testBeeperBtn.addEventListener('click', () => sendCommand('beeper'));
-    
+    elements.beeperSwitchBtn.addEventListener('click', toggleBeeperSwitch);
+
     // Close modal on outside click
     elements.scheduleModal.addEventListener('click', (e) => {
         if (e.target === elements.scheduleModal) {
@@ -96,7 +119,7 @@ async function checkSupabaseConnection() {
     updateStatus('connecting', 'Verbinde...');
     
     try {
-        const { data, error } = await supabase.from('schedules').select('count').limit(1);
+        const { data, error } = await supabase.from('schedules').select('id').limit(1);
         if (error) throw error;
         
         // Successfully connected
@@ -135,15 +158,42 @@ async function loadSchedules() {
     try {
         const { data, error } = await supabase
             .from('schedules')
-            .select('*')
+            .select('id, name, time, days, beeper_duration, active, created_at')
             .order('time', { ascending: true });
 
         if (error) throw error;
         
-        schedules = data || [];
+        schedules = (data || []).map(s => ({
+            ...s,
+            days: parseDays(s.days)
+        }));
         renderSchedules();
     } catch (error) {
         console.error('Error loading schedules:', error);
+        // Bei Parse-Fehler: Cache leeren und nochmal versuchen
+        if (error.message && error.message.includes('JSON')) {
+            console.warn('JSON parse error - clearing caches and retrying...');
+            if ('caches' in window) {
+                const keys = await caches.keys();
+                await Promise.all(keys.map(k => caches.delete(k)));
+            }
+            // Einmal neu versuchen
+            try {
+                const { data, error: retryError } = await supabase
+                    .from('schedules')
+                    .select('id, name, time, days, beeper_duration, active, created_at')
+                    .order('time', { ascending: true });
+                if (!retryError) {
+                    schedules = (data || []).map(s => ({
+                        ...s,
+                        days: parseDays(s.days)
+                    }));
+                    renderSchedules();
+                    addLog('Zeitpläne nach Cache-Reset geladen', 'success');
+                    return;
+                }
+            } catch (e) { /* Retry fehlgeschlagen */ }
+        }
         showToast('Fehler beim Laden der Zeitpläne: ' + error.message, 'error');
         addLog('Fehler beim Laden: ' + error.message, 'error');
     }
@@ -170,7 +220,7 @@ function renderSchedules() {
     }
 
     elements.scheduleList.innerHTML = schedules.map(schedule => {
-        const days = JSON.parse(schedule.days || '[]');
+        const days = parseDays(schedule.days);
         const dayNames = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'];
         const activeDays = days.map(d => dayNames[d]).join(', ');
         
@@ -216,7 +266,7 @@ function openScheduleModal(scheduleId = null) {
         document.getElementById('beeperDuration').value = schedule.beeper_duration;
         document.getElementById('scheduleActive').checked = schedule.active;
         
-        const days = JSON.parse(schedule.days || '[]');
+        const days = parseDays(schedule.days);
         document.querySelectorAll('input[name="days"]').forEach(checkbox => {
             checkbox.checked = days.includes(parseInt(checkbox.value));
         });
@@ -262,9 +312,7 @@ async function handleScheduleSubmit(e) {
         time: document.getElementById('scheduleTime').value,
         beeper_duration: parseInt(document.getElementById('beeperDuration').value),
         active: document.getElementById('scheduleActive').checked,
-        days: JSON.stringify(
-            selectedDays.map(cb => parseInt(cb.value))
-        )
+        days: selectedDays.map(cb => parseInt(cb.value))
     };
     
     // Validate name
@@ -386,7 +434,7 @@ function checkSchedules() {
     schedules.forEach(schedule => {
         if (!schedule.active) return;
         
-        const scheduleDays = JSON.parse(schedule.days || '[]');
+        const scheduleDays = parseDays(schedule.days);
         if (!scheduleDays.includes(currentDay)) return;
         
         if (schedule.time === currentTime) {
@@ -404,6 +452,27 @@ async function triggerSchedule(schedule) {
         schedule_id: schedule.id,
         beeper_duration: schedule.beeper_duration
     });
+}
+
+// Pipsen-Schalter umschalten (Web-Button)
+async function toggleBeeperSwitch() {
+    const prev = beeperOn;
+    beeperOn = !beeperOn;
+    updateBeeperSwitchUI();
+    try {
+        await sendCommand('beeper_switch', { enabled: beeperOn });
+    } catch (e) {
+        beeperOn = prev;
+        updateBeeperSwitchUI();
+    }
+}
+
+function updateBeeperSwitchUI() {
+    if (!elements.beeperSwitchIcon || !elements.beeperSwitchLabel) return;
+    elements.beeperSwitchIcon.textContent = beeperOn ? '●' : '○';
+    elements.beeperSwitchLabel.textContent = beeperOn ? 'Pipsen: An' : 'Pipsen: Aus';
+    elements.beeperSwitchBtn.classList.toggle('beeper-on', beeperOn);
+    elements.beeperSwitchBtn.classList.toggle('beeper-off', !beeperOn);
 }
 
 // Send Command to ESP32
@@ -429,6 +498,7 @@ async function sendCommand(command, data = {}) {
             'open': 'Box öffnen',
             'close': 'Box schließen',
             'beeper': 'Beeper testen',
+            'beeper_switch': beeperOn ? 'Pipsen an' : 'Pipsen aus',
             'schedule_trigger': 'Zeitplan ausgelöst'
         };
         
@@ -437,6 +507,7 @@ async function sendCommand(command, data = {}) {
         console.error('Error sending command:', error);
         showToast('Fehler beim Senden des Befehls: ' + error.message, 'error');
         addLog(`Fehler: ${error.message}`, 'error');
+        throw error;
     }
 }
 
@@ -503,6 +574,64 @@ async function loadBoxState() {
     } catch (error) {
         console.error('Error loading box state:', error);
     }
+}
+
+// Check ESP32 Connection Status
+async function checkESP32Status() {
+    if (!isSupabaseConfigured || !supabase) {
+        updateESP32Status('disconnected', 'Nicht konfiguriert');
+        return;
+    }
+    
+    try {
+        const { data, error } = await supabase
+            .from('box_state')
+            .select('last_updated')
+            .order('last_updated', { ascending: false })
+            .limit(1)
+            .single();
+        
+        if (error && error.code !== 'PGRST116') {
+            console.error('Error checking ESP32 status:', error);
+            updateESP32Status('disconnected', 'Fehler');
+            return;
+        }
+        
+        if (!data || !data.last_updated) {
+            updateESP32Status('disconnected', 'Keine Daten');
+            return;
+        }
+        
+        // Check if last_updated is recent (within 90 seconds, Heartbeat alle 45s)
+        const lastUpdated = new Date(data.last_updated);
+        const now = new Date();
+        const diffSeconds = (now - lastUpdated) / 1000;
+        
+        if (diffSeconds < 90) {
+            // ESP32 is connected (heartbeat within last 90 seconds)
+            const secondsAgo = Math.floor(diffSeconds);
+            updateESP32Status('connected', `Verbunden (vor ${secondsAgo}s)`);
+        } else if (diffSeconds < 300) {
+            // ESP32 might be connected but slow (5 minutes)
+            const minutesAgo = Math.floor(diffSeconds / 60);
+            updateESP32Status('warning', `Warnung (vor ${minutesAgo}min)`);
+        } else {
+            // ESP32 is disconnected (more than 5 minutes)
+            const minutesAgo = Math.floor(diffSeconds / 60);
+            updateESP32Status('disconnected', `Getrennt (vor ${minutesAgo}min)`);
+        }
+    } catch (error) {
+        console.error('Error checking ESP32 status:', error);
+        updateESP32Status('disconnected', 'Fehler');
+    }
+}
+
+// Update ESP32 Status Display
+function updateESP32Status(status, text) {
+    if (!elements.esp32StatusText || !elements.esp32Dot) return;
+    
+    elements.esp32StatusText.textContent = text;
+    elements.esp32Dot.className = 'status-dot ' + status;
 }
 
 // Add Log
