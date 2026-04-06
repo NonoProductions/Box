@@ -1,66 +1,51 @@
 # Schnellstart-Anleitung
 
-## ⚡ In 3 Schritten zur laufenden App
+## In 3 Schritten zur laufenden App
 
 ### Schritt 1: Supabase konfigurieren
 
-1. Öffnen Sie `config.js`
+1. Legen Sie eine `.env` an
 2. Tragen Sie Ihre Supabase-Credentials ein:
-   ```javascript
-   export const config = {
-       supabase: {
-           url: 'https://xxxxx.supabase.co',  // Ihre URL
-           anonKey: 'Ihr_Anon_Key_hier'       // Ihr Key
-       }
-   };
-   ```
 
-### Schritt 2: Server starten
-
-**Windows:** Doppelklicken Sie auf `server.bat`
-
-**Linux/Mac:** Führen Sie aus:
 ```bash
-chmod +x server.sh && ./server.sh
+VITE_SUPABASE_URL=https://xxxxx.supabase.co
+VITE_SUPABASE_ANON_KEY=Ihr_Anon_Key_hier
 ```
 
-**Oder manuell mit Python:**
+### Schritt 2: App starten
+
 ```bash
-python server.py
+npm install
+npm run dev
 ```
 
-Der Browser öffnet sich automatisch auf `http://localhost:8000`
+Die App laeuft dann typischerweise unter `http://localhost:5173`.
 
-### Schritt 3: Fertig! 🎉
+### Schritt 3: Fertig
 
-Die App sollte jetzt laufen. Sie sehen:
-- ✅ Grüne Erfolgsmeldung wenn Supabase verbunden ist
-- 📅 Zeitplan-Sektion zum Erstellen von Zeitplänen
-- 🎮 Manuelle Steuerung für Box und Beeper
+Sie sollten jetzt sehen:
 
-## ❌ Häufige Probleme
+- eine erfolgreiche Supabase-Verbindung
+- die Wecker-Sektion
+- die manuelle Steuerung fuer Box und Beeper
 
-### "Cross-Origin Request Blocked" oder "CORS request not http"
-
-**Problem:** Sie öffnen die Datei direkt im Browser (`file://`)
-
-**Lösung:** Verwenden Sie den lokalen Server (siehe Schritt 2)
+## Haeufige Probleme
 
 ### "Supabase nicht konfiguriert"
 
-**Problem:** `config.js` enthält noch Platzhalter
+Problem: `.env` fehlt oder enthaelt noch Platzhalter
 
-**Lösung:** Tragen Sie Ihre Supabase-Credentials in `config.js` ein
+Loesung: Tragen Sie Ihre Supabase-Credentials in `.env` ein
 
 ### Port bereits belegt
 
-**Problem:** Port 8000 wird bereits verwendet
+Problem: Der Dev-Server kann nicht starten
 
-**Lösung:** 
-- Beenden Sie den anderen Server, oder
-- Ändern Sie den Port in `server.py` (Zeile 11: `PORT = 8000`)
+Loesung:
 
-## 📚 Weitere Hilfe
+- anderen Prozess beenden
+- oder den Port in der Vite-Konfiguration anpassen
 
-Siehe `README.md` für detaillierte Informationen und `SETUP.md` für die vollständige Setup-Anleitung.
+## Weitere Hilfe
 
+Siehe [README.md](c:/Users/noela/Documents/Box-Sandy/README.md) fuer den Gesamtueberblick und [SETUP.md](c:/Users/noela/Documents/Box-Sandy/SETUP.md) fuer das vollstaendige Setup.

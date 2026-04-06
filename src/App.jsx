@@ -5,7 +5,7 @@ import { config } from './config.js'
 const SUPABASE_URL = config.supabase.url
 const SUPABASE_ANON_KEY = config.supabase.anonKey
 const isSupabaseConfigured =
-  SUPABASE_URL !== 'YOUR_SUPABASE_URL' && SUPABASE_ANON_KEY !== 'YOUR_SUPABASE_ANON_KEY'
+  Boolean(SUPABASE_URL) && Boolean(SUPABASE_ANON_KEY)
 const supabase = isSupabaseConfigured ? createClient(SUPABASE_URL, SUPABASE_ANON_KEY) : null
 
 const DAY_OPTIONS = [
@@ -153,7 +153,7 @@ function AppShell({
           {showWarning && (
             <section className="config-banner">
               <strong>Supabase fehlt noch.</strong>
-              <p>Bitte trage URL und Anon Key in `config.js` ein.</p>
+              <p>Bitte trage URL und Anon Key in deiner `.env` ein.</p>
             </section>
           )}
 
@@ -593,7 +593,7 @@ export default function App() {
       updateStatus('disconnected', 'Nicht konfiguriert')
       setShowWarning(true)
       setSchedules([])
-      addLog('Supabase ist noch nicht in config.js eingetragen.', 'error')
+      addLog('Supabase ist noch nicht in der .env eingetragen.', 'error')
       return
     }
 

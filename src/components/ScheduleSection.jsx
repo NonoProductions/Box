@@ -26,7 +26,7 @@ export default function ScheduleSection({ schedules, isConfigured, onAdd, onEdit
             <p className="empty-state-text">
               {isConfigured
                 ? 'Tippe + um deinen ersten Wecker zu erstellen'
-                : 'Supabase in config.js einrichten'}
+                : 'Supabase in .env einrichten'}
             </p>
           </div>
         ) : (
